@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package extension
+        run: |
+          zip novel-pinyin-restorer.zip \
+            background.js content.js manifest.json \
+            popup.html popup.js rules.js README.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: novel-pinyin-restorer.zip
+          generate_release_notes: true

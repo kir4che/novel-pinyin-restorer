@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "成人小說拼音還原助手",
+  "version": "1.0.0",
+  "description": "自動將成人小說中為了規避審查而使用的拼音、英文縮寫與火星文還原為正確的中文。",
+  "permissions": ["storage", "contextMenus"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["rules.js", "content.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ]
+}
