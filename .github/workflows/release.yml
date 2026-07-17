@@ -1,26 +1,34 @@
-name: Release
+name: Package .crx
 
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-crx:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
 
-      - name: Package extension
-        run: |
-          zip novel-pinyin-restorer.zip \
-            background.js content.js manifest.json \
-            popup.html popup.js rules.js README.md
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/setup-node@v4
         with:
-          files: novel-pinyin-restorer.zip
-          generate_release_notes: true
+          node-version: 20
+
+      - name: Decode private key
+        run: |
+          base64 -d <<< "${{ secrets.CRX_PRIVATE_KEY }}" > key.pem
+
+      - name: Pack .crx
+        run: |
+          npx crx pack ./             -o novel-pinyin-restorer.crx             -p key.pem
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.ref_name }}"             novel-pinyin-restorer.crx --clobber
