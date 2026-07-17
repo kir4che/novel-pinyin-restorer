@@ -33,7 +33,6 @@
 { key: "pinyin", replacement: "中文" },
 ```
 
-
 ## 單檔安裝（.crx）
 
 使用者只需下載一個 `.crx` 檔案，拖入 `chrome://extensions` 即可安裝，裝完可刪。
@@ -56,9 +55,9 @@ base64 -i key.pem | pbcopy
 3. 根目錄選此專案，私密金鑰選 `key.pem`
 4. 產出 `novel-pinyin-restorer.crx`
 
-**方式二（npm crx 套件，可離線執行）：**
+**方式二（Python 腳本，零相依套件）：**
 ```bash
-npx crx pack ./ -o novel-pinyin-restorer.crx -p key.pem
+python3 scripts/package-crx.py . key.pem novel-pinyin-restorer.crx
 ```
 
 ### 自動發行（GitHub Actions）

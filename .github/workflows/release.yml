@@ -15,17 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Decode private key
         run: |
           base64 -d <<< "${{ secrets.CRX_PRIVATE_KEY }}" > key.pem
 
       - name: Pack .crx
         run: |
-          npx crx pack ./             -o novel-pinyin-restorer.crx             -p key.pem
+          python3 scripts/package-crx.py . key.pem novel-pinyin-restorer.crx
 
       - name: Upload to release
         env:
