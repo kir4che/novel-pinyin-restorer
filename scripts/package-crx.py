@@ -37,13 +37,9 @@ def main():
     key_path = sys.argv[2]
     output_path = sys.argv[3]
 
-    with open(key_path, 'rb') as f:
-        key_pem = f.read()
-
     # Public key in DER format
     pub_der = subprocess.check_output(
-        ['openssl', 'rsa', '-pubout', '-outform', 'DER'],
-        input=key_pem,
+        ['openssl', 'pkey', '-in', key_path, '-pubout', '-outform', 'DER'],
     )
 
     # CRX ID = SHA256(pub_der)[:16]
