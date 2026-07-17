@@ -2,13 +2,19 @@
   "manifest_version": 3,
   "name": "成人小說拼音還原助手",
   "version": "1.0.0",
-  "description": "自動將成人小說中為了規避審查而使用的拼音、英文縮寫與火星文還原為正確的中文。",
+  "description": "自動將成人小說網頁中的拼音、英文縮寫與火星文轉換為正確中文，改善閱讀體驗。",
   "permissions": ["storage", "contextMenus"],
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "128": "icon.png"
+  },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icon.png"
+    }
   },
   "content_scripts": [
     {
